@@ -172,28 +172,30 @@ async function echo(chatCtl: ChatController): Promise<void> {
     self: false,
     avatar: '-',
   });
-  // const file = (await chatCtl.setActionRequest({
-  //   type: 'file',
-  //   accept: 'image/*',
-  //   multiple: true,
-  // })) as FileActionResponse;
-  // await chatCtl.addMessage({
-  //   type: 'jsx',
-  //   content: (
-  //     <div>
-  //       {file.files.map((f) => (
-  //         <img
-  //           key={file.files.indexOf(f)}
-  //           src={window.URL.createObjectURL(f)}
-  //           alt="File"
-  //           style={{ width: '100%', height: 'auto' }}
-  //         />
-  //       ))}
-  //     </div>
-  //   ),
-  //   self: false,
-  //   avatar: '-',
-  // });
+  
+  const file = (await chatCtl.setActionRequest({
+    type: 'file',
+    accept: 'image/*',
+    multiple: true,
+  }));
+  
+  await chatCtl.addMessage({
+    type: 'jsx',
+    content: (
+      <div>
+        {file.files.map((f) => (
+          <img
+            key={file.files.indexOf(f)}
+            src={window.URL.createObjectURL(f)}
+            alt="File"
+            style={{ width: '100%', height: 'auto' }}
+          />
+        ))}
+      </div>
+    ),
+    self: false,
+    avatar: '-',
+  });
 
   await chatCtl.addMessage({
     type: 'text',
@@ -201,30 +203,32 @@ async function echo(chatCtl: ChatController): Promise<void> {
     self: false,
     avatar: '-',
   });
-  // const audio = (await chatCtl
-  //   .setActionRequest({
-  //     type: 'audio',
-  //   })
-  //   .catch(() => ({
-  //     type: 'audio',
-  //     value: 'Voice input failed.',
-  //     avatar: '-',
-  //   }))) as AudioActionResponse;
-  // await (audio.audio
-  //   ? chatCtl.addMessage({
-  //       type: 'jsx',
-  //       content: (
-  //         <a href={window.URL.createObjectURL(audio.audio)}>Audio downlaod</a>
-  //       ),
-  //       self: false,
-  //       avatar: '-',
-  //     })
-  //   : chatCtl.addMessage({
-  //       type: 'text',
-  //       content: audio.value,
-  //       self: false,
-  //       avatar: '-',
-  //     }));
+  
+  const audio = (await chatCtl
+    .setActionRequest({
+      type: 'audio',
+    })
+    .catch(() => ({
+      type: 'audio',
+      value: 'Voice input failed.',
+      avatar: '-',
+    })));
+    
+  await (audio.audio
+    ? chatCtl.addMessage({
+        type: 'jsx',
+        content: (
+          <a href={window.URL.createObjectURL(audio.audio)}>Audio downlaod</a>
+        ),
+        self: false,
+        avatar: '-',
+      })
+    : chatCtl.addMessage({
+        type: 'text',
+        content: audio.value,
+        self: false,
+        avatar: '-',
+      }));
 
   await chatCtl.addMessage({
     type: 'text',
