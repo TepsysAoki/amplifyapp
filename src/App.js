@@ -66,7 +66,19 @@ function App() {
         placeholder="Note description"
         value={formData.description}
       />
-      <input
+      <button onClick={createNote}>Create Note</button>
+      <div style={{marginBottom: 30}}>
+        {
+          notes.map(note => (
+            <div key={note.id || note.name}>
+              <h2>{note.name}</h2>
+              <p>{note.description}</p>
+              <button onClick={() => deleteNote(note)}>Delete note</button>
+            </div>
+          ))
+        }
+      </div>
+           <input
   type="file"
   onChange={onChange}
 />
@@ -82,18 +94,6 @@ function App() {
     </div>
   ))
 }
-      <button onClick={createNote}>Create Note</button>
-      <div style={{marginBottom: 30}}>
-        {
-          notes.map(note => (
-            <div key={note.id || note.name}>
-              <h2>{note.name}</h2>
-              <p>{note.description}</p>
-              <button onClick={() => deleteNote(note)}>Delete note</button>
-            </div>
-          ))
-        }
-      </div>
       <AmplifySignOut />
     </div>
   );
